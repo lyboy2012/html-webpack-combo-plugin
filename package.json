@@ -1,6 +1,6 @@
 {
     "name": "html-webpack-combo-plugin",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "description": "combo js css in htmls of 'html webpack plugin' creation ",
     "main": "index.js",
     "scripts": {
