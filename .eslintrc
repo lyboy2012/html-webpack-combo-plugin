@@ -1,0 +1,45 @@
+{
+    "env": {
+        "commonjs": true,
+        "es6": true,
+        "node": true,
+        "amd": true,
+        "mocha": true
+    },
+
+    "rules": {
+        // white space
+        "indent": ["error", 4],
+        "keyword-spacing": "error",
+        "object-curly-spacing": ["error", "always"],
+        "space-unary-ops": "error",
+        "space-infix-ops": "error",
+        "space-in-parens": ["error", "never"],
+        "space-before-blocks": "error",
+        "space-before-function-paren": ["error", { "anonymous": "always", "named": "never" }],
+        "no-trailing-spaces": ["error", { "ignoreComments": true }],
+        "no-whitespace-before-property": "error",
+        "semi": ["error", "always"], //语句强制分号结尾
+        // "spaced-comment": ["error", "always", { "exceptions": ["-", "+"] }],
+
+        // syntax
+        "camelcase": "error",
+        "new-cap": "error",
+        "dot-location": ["error", "property"],
+        "max-len": ["error", 120],
+        "max-params": ["error", 10],
+        "max-statements": ["error", 200],
+
+        // variable
+        // "vars-on-top": "error",
+        "one-var": ["error", "never"],
+        "no-unused-vars": "error",
+        "no-undef": "error",
+        "no-redeclare": ["error", { "builtinGlobals": true }],
+        "no-mixed-spaces-and-tabs": ["error", false],
+        "yoda": ["error", "always"]
+    },
+    "globals": {
+
+    }
+}
