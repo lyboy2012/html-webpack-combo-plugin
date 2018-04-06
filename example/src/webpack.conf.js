@@ -1,9 +1,11 @@
+const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ComboPlugin = require('../../index')
 module.exports = {
     mode: 'production',
     entry: './example/src/index.js',
     output: {
+        path: process.cwd(),
         filename: './example/dest/index.js'
     },
     plugins: [
@@ -12,10 +14,10 @@ module.exports = {
             filename: './example/dest/index.html'
         }),
         new ComboPlugin({
-            baseUri: `http://test.domain.com/??`,
+            baseUri: `http://s.allspark.xin/??`,
             splitter: ',',
-            replaceCssDomain: `test.domain.com`,
-            replaceScriptDomain: `test.domain.com`
+            replaceCssDomain: `allspark.xin`,
+            replaceScriptDomain: `allspark.xin`
         })
 
     ]
