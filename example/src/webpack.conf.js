@@ -1,6 +1,7 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const ComboPlugin = require('../../index')
 module.exports = {
+    mode: 'production',
     entry: './example/src/index.js',
     output: {
         filename: './example/dest/index.js'

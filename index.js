@@ -1,17 +1,29 @@
-function ComboPlugin(options) {
+function ComboPlugin (options) {
 
     options = options || {};
     this.options = options;
 }
 
-ComboPlugin.prototype.apply = function(compiler) {
+ComboPlugin.prototype.apply = function (compiler) {
     let self = this;
-    compiler.plugin('compilation', function(compilation) {
-        compilation.plugin('html-webpack-plugin-after-html-processing', function(htmlPluginData, callback) {
-            htmlPluginData.html = combo(htmlPluginData.html, self.options);
-            callback(null, htmlPluginData);
-        });
+    compiler.plugin('compilation', function (compilation) {
+        if (compilation.hooks) {
+            compilation.hooks.htmlWebpackPluginAfterHtmlProcessing.tapAsync('ComboPlugin', (htmlPluginData, callback) => {
+
+                htmlPluginData.html = combo(htmlPluginData.html, self.options);
+
+                callback(null, htmlPluginData)
+            })
+        } else {
+            compilation.plugin('html-webpack-plugin-after-html-processing', function (htmlPluginData, callback) {
+
+                htmlPluginData.html = combo(htmlPluginData.html, self.options);
+                callback(null, htmlPluginData);
+            });
+        }
+
     });
+
 
 };
 
@@ -25,7 +37,7 @@ const combo = (html, options) => {
         links: []
     };
 
-    var genComboScriptUriTag = function() {
+    var genComboScriptUriTag = function () {
         var uri = baseUri + src.scripts.join(options.splitter || ';');
         var scriptTag = '<script type="text/javascript" src="' + uri + '"></script>';
         var async = options.async || false;
@@ -45,7 +57,7 @@ const combo = (html, options) => {
         return scriptTag;
     };
 
-    var genComboLinkUriTag = function() {
+    var genComboLinkUriTag = function () {
         var uri = baseUri + src.links.join(options.splitter || ',');
         var linkTag = '<link rel="stylesheet" href="' + uri + '" />';
         return linkTag;
@@ -53,7 +65,7 @@ const combo = (html, options) => {
 
     var group = (chunk.replace(/[\r\n]/g, '').match(/<\!\-\-\[if[^\]]+\]>.*?<\!\[endif\]\-\->/igm) || []).join('');
 
-    var scriptProcessor = function($, $1) {
+    var scriptProcessor = function ($, $1) {
         // 增加忽略属性
         if ($.match('data-ignore="true"')) {
             return $;
@@ -71,7 +83,7 @@ const combo = (html, options) => {
                 var reg = new RegExp('^(http(s)?:)?\/\/' + options.replaceScriptDomain + '\/', 'igm');
                 matchs = $1.match(reg);
             } else {
-                matchs = $1.match(/^(http(s)?:)?\/\/yccmtmwap.10101111.com\//igm);
+                matchs = $1.match(/^(http(s)?:)?\/\/test.domain.com\//igm);
             }
             if (matchs) {
                 src.scripts.push($1.replace(matchs[0], ''));
@@ -89,7 +101,7 @@ const combo = (html, options) => {
         return '';
     };
 
-    var linkProcessor = function($, $1) {
+    var linkProcessor = function ($, $1) {
         // 增加忽略属性
         if ($.match('data-ignore="true"')) {
             return $;
