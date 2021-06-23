@@ -5,22 +5,21 @@ function ComboPlugin (options) {
 }
 
 ComboPlugin.prototype.apply = function (compiler) {
+   // console.log(compiler)
     let self = this;
-    compiler.plugin('compilation', function (compilation) {
-        if (compilation.hooks) {
-            compilation.hooks.htmlWebpackPluginAfterHtmlProcessing.tapAsync('ComboPlugin', (htmlPluginData, callback) => {
+    
+    compiler.hooks.compilation.tap(
+        'ComboPlugin',
+        (compilation) => {
 
+            const HtmlWebpackPlugin = require('html-webpack-plugin');
+            const hooks = HtmlWebpackPlugin.getHooks(compilation);
+
+            hooks.beforeEmit.tapAsync('ComboPlugin', (htmlPluginData, callback) => {
+                console.log(htmlPluginData)
                 htmlPluginData.html = combo(htmlPluginData.html, self.options);
-
                 callback(null, htmlPluginData)
-            })
-        } else {
-            compilation.plugin('html-webpack-plugin-after-html-processing', function (htmlPluginData, callback) {
-
-                htmlPluginData.html = combo(htmlPluginData.html, self.options);
-                callback(null, htmlPluginData);
             });
-        }
 
     });
 
